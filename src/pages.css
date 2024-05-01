@@ -1,0 +1,28 @@
+.text-white {
+  color: white;
+}
+
+.input-div {
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+#root,
+body {
+  /* background-color: rgb(36, 167, 127); */
+  width: 100%;
+}
+input[type="file"] {
+  width: 230px;
+}
+.hover a:hover {
+  color: white;
+}
+.btn-light-g {
+  background-color: rgb(16, 204, 204);
+  color: white;
+}
+.btn-light-g:hover {
+  background-color: rgb(88, 189, 189);
+  color: white;
+}

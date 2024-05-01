@@ -1,0 +1,9 @@
+.signUp {
+  background-color: rgb(130, 219, 190);
+}
+body {
+  background-color: rgb(29, 136, 100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
