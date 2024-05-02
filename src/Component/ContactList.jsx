@@ -7,8 +7,12 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import emptyImage from "../../public/emptyImage.jpg";
 import Navbars from "./Navbars";
-import { useSelector } from "react-redux";
-import { deleteContact } from ".././Storage/Slice/contactListSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteContact,
+  importContact,
+} from ".././Storage/Slice/contactListSlice";
+// import {importContact} from ".././Storage/Slice/contactListSlice"
 const ContactList = () => {
   // const navigate = useNavigate();
   const [showModel, setShowModel] = useState(false);
@@ -26,12 +30,14 @@ const ContactList = () => {
         )
       ].contactList
   );
-
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.signIn.toString());
+  const allUser = useSelector((state) => state.contactApp);
   const fakePromise = (secs) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
-        console.log("fake Promise");
+        // console.log("fake Promise");
       }, secs * 1000);
     });
   };
@@ -42,17 +48,26 @@ const ContactList = () => {
   };
   //for import
   const convertArrToObjAndInsert = (data) => {
-    console.log(data);
     data.shift();
+    // console.log(data, "Excel DATASSS");
+    const arrObj = [];
     for (const contact of data) {
       const obj = {};
-      obj["contactId"] = Date.now();
+      obj["contactId"] = Date.now() * Math.random();
       obj["phone"] = contact[1];
       obj["name"] = contact[2];
       obj["email"] = contact[3];
       obj["image"] = contact[4];
       // addContact(obj, true);
+      arrObj.push(obj);
     }
+    dispatch(
+      importContact({
+        excelContactList: arrObj,
+        currentUserId: Number(userId),
+        allUser: allUser,
+      })
+    );
   };
   //for Export
   const convertObjTOArr = () => {
@@ -71,7 +86,7 @@ const ContactList = () => {
       ];
       arr.push(eachRowdata);
     }
-    console.log(arr);
+    // console.log(arr);
     return arr;
   };
   const handleImportExcel = (e) => {

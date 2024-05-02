@@ -5,9 +5,6 @@ const contactListSlice = createSlice({
   name: "contactList",
   initialState: [],
   reducers: {
-    // signInR: (state, action) => {
-    //   loginedUser(action.payload, true);
-    // },
     signUpR: (state, action) => {
       return [...state, action.payload.data];
     },
@@ -79,18 +76,6 @@ const contactListSlice = createSlice({
         }
         return contact;
       });
-      //   // console.log("if wala");
-      // // } else {
-      //   // console.log("Else wala works Perfect");
-      //   // const currentUser = { ...allUser[userIndex] };
-      //   updatedContactList = currentUser.contactList.map((contact) => {
-      //     console.log(contact);
-      //     if (contact.contactId == updatedContact.contactId) {
-      //       return updatedContact;
-      //     }
-      //     return contact;
-      //   });
-      // }
 
       const updatedUser = {
         ...currentUser,
@@ -105,11 +90,40 @@ const contactListSlice = createSlice({
 
       return updatedAllUsers;
     },
-    fetchContact: (state, action) => {
-      console.log("fetch", state, action.payload);
+    importContact: (state, action) => {
+      // console.log("Import Reducer", state, action.payload);
+      const { excelContactList, currentUserId, allUser } = action.payload;
+      // const check = excelContactList.map((excelEachContact) => {
+      const userIndex = allUser.findIndex(
+        (user) => user.userId == currentUserId
+      );
+      if (userIndex === -1) {
+        console.error("User not found");
+        return state;
+      }
+      const currentUser = { ...allUser[userIndex] };
+      const newContactList = [...currentUser.contactList, ...excelContactList];
+      const updatedUser = {
+        ...currentUser,
+        contactList: newContactList,
+      };
+      const updatedAllUser = [
+        ...allUser.slice(0, userIndex),
+        updatedUser,
+        ...allUser.slice(userIndex + 1),
+      ];
+      return updatedAllUser;
+      // });
+      // console.log(check);
+      // return check;
     },
   },
 });
-export const { addContact, deleteContact, editContact, fetchContact, signUpR } =
-  contactListSlice.actions;
+export const {
+  addContact,
+  deleteContact,
+  editContact,
+  importContact,
+  signUpR,
+} = contactListSlice.actions;
 export default contactListSlice.reducer;
