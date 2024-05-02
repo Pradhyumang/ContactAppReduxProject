@@ -76,7 +76,7 @@ function UpdateModel({ closeModel, showModel, contactDetail }) {
         // updateContact({ ...contact, image: image });
         dispatch(
           editContact({
-            newContact: { ...contact, image: image },
+            updatedContact: { ...contact, image: image },
             currentUserId: userId,
             allUser: allUser,
           })
@@ -85,7 +85,7 @@ function UpdateModel({ closeModel, showModel, contactDetail }) {
         // updateContact({ ...contact });
         dispatch(
           editContact({
-            newContact: { ...contact, image: image },
+            updatedContact: { ...contact },
             currentUserId: userId,
             allUser: allUser,
           })

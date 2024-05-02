@@ -26,12 +26,7 @@ const ContactList = () => {
         )
       ].contactList
   );
-  // console.log(contactList);
-  // const [excelData, setExcelData] = useState([]);
-  // const [loader, setLoader] = useState(false);
-  // useEffect(() => {
-  //   getLoginUserId() ? "" : navigate("/sign-in");
-  // }, []);
+
   const fakePromise = (secs) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -47,6 +42,7 @@ const ContactList = () => {
   };
   //for import
   const convertArrToObjAndInsert = (data) => {
+    console.log(data);
     data.shift();
     for (const contact of data) {
       const obj = {};
@@ -57,15 +53,12 @@ const ContactList = () => {
       obj["image"] = contact[4];
       // addContact(obj, true);
     }
-    // setImportState(true);
-
-    // importState ? console.log("imported") : console.log("import Failed !!!");
-    // setImportState(false);
   };
   //for Export
   const convertObjTOArr = () => {
     // const userId = getLoginUserId().userId;
-    const allContacts = console.log(allContacts); //getUserContactsById(userId).contactList;
+    const allContacts = contactList;
+    // const allContacts = console.log(allContacts); //getUserContactsById(userId).contactList;
     const header = ["contactId", "phone", "name", "email", "image"];
     const arr = [header];
     for (const echContact of allContacts) {
@@ -76,16 +69,12 @@ const ContactList = () => {
         echContact.email,
         echContact.image,
       ];
-      // console.log(echContact);
-      // eachRowdata.push(echContact);
       arr.push(eachRowdata);
-      // console.log(arr);
     }
     console.log(arr);
     return arr;
   };
   const handleImportExcel = (e) => {
-    // console.log("haneder");
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -93,8 +82,6 @@ const ContactList = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const importedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      // setExcelData(importedData);
-      // console.log(importedData);
       convertArrToObjAndInsert(importedData);
       setImportState(Math.random);
     };
@@ -102,13 +89,6 @@ const ContactList = () => {
     setImports(true);
   };
 
-  // const handleExportExcel = () => {
-  //   const data = convertObjTOArr();
-  //   const ws = XLSX.utils.aoa_to_sheet(data);
-  //   const wb = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-  //   XLSX.writeFile(wb, "exported_contact.xlsx");
-  // };
   const handleExportExcel = () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Sheet1");
@@ -132,19 +112,6 @@ const ContactList = () => {
     });
     setExports(true);
   };
-  // // let contactlist = [];
-  // try {
-  //   // const dataLoginedUser = getUserContactsById(getLoginUserId().userId);
-  //   // contactlist = dataLoginedUser.contactList;
-  // } catch (error) {
-  //   // console.log(error);
-  // }
-
-  // console.log(contactlist, "conatctlist");
-  // const closeModel = () => setShowModel(false);
-  // logout
-  // addContact();
-  // console.log(loader);
   const sty = { textAlign: "left" };
   if (exports) {
     setExports(false);
@@ -254,21 +221,11 @@ const ContactList = () => {
                     </td>
 
                     <td style={{ display: "flex" }}>
-                      {/* <input
-                        type="button"
-                        value="Edit"
-                        className="btn btn-success m-1"
-                        onClick={() => {
-                          setShowModelUpdate(true);
-                          setContactId(contact.contactId);
-                        }}
-                      /> */}
                       <EditButton
                         contact={contactt}
                         fakePromise={fakePromise}
                         setShowModelUpdate={setShowModelUpdate}
                         setContact={setContact}
-                        // dispatch={dispatch}
                       />
                       <DeleteButton
                         // loader={loader}
@@ -277,7 +234,6 @@ const ContactList = () => {
                         setContact={setContact}
                         fakePromise={fakePromise}
                         deleteContact={deleteContact}
-                        // dispatch={dispatch}
                       />
                     </td>
                   </tr>

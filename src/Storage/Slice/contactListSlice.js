@@ -59,7 +59,51 @@ const contactListSlice = createSlice({
     },
 
     editContact: (state, action) => {
-      console.log("edit", state, action.payload);
+      // console.log("edit", action.payload);
+      const { updatedContact, currentUserId, allUser } = action.payload;
+
+      const userIndex = allUser.findIndex(
+        (user) => user.userId === currentUserId
+      );
+      if (userIndex === -1) {
+        console.error("User not found");
+        return state;
+      }
+      // let updatedContactList;
+      const currentUser = { ...allUser[userIndex] };
+      // if (updatedContact.image) {
+      const updatedContactList = currentUser.contactList.map((contact) => {
+        // console.log(contact);
+        if (contact.contactId === updatedContact.contactId) {
+          return updatedContact;
+        }
+        return contact;
+      });
+      //   // console.log("if wala");
+      // // } else {
+      //   // console.log("Else wala works Perfect");
+      //   // const currentUser = { ...allUser[userIndex] };
+      //   updatedContactList = currentUser.contactList.map((contact) => {
+      //     console.log(contact);
+      //     if (contact.contactId == updatedContact.contactId) {
+      //       return updatedContact;
+      //     }
+      //     return contact;
+      //   });
+      // }
+
+      const updatedUser = {
+        ...currentUser,
+        contactList: updatedContactList,
+      };
+
+      const updatedAllUsers = [
+        ...allUser.slice(0, userIndex),
+        updatedUser,
+        ...allUser.slice(userIndex + 1),
+      ];
+
+      return updatedAllUsers;
     },
     fetchContact: (state, action) => {
       console.log("fetch", state, action.payload);

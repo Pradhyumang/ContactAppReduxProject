@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PropTypes } from "prop-types";
 const EditButton = ({
   contact,
-  fakePromise,
+  // fakePromise,
   setShowModelUpdate,
   setContact,
 }) => {
@@ -16,9 +16,9 @@ const EditButton = ({
         className="btn btn-success m-1"
         onClick={async () => {
           setLoader(true);
-          await fakePromise(0.5);
+          // await fakePromise(0.5);
           setShowModelUpdate(true);
-          console.log(contact.contactId);
+          // console.log(contact.contactId);
           setContact(contact);
           setLoader(false);
         }}
